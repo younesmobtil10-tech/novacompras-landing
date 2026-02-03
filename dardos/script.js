@@ -24,7 +24,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize smooth scroll for anchor links
     initSmoothScroll();
+
+    // Initialize touch swipe for gallery
+    initTouchSwipe();
 });
+
+/**
+ * Touch Swipe for Product Gallery
+ */
+function initTouchSwipe() {
+    const galleryMain = document.querySelector('.gallery-main');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+
+    if (!galleryMain || thumbnails.length === 0) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let currentIndex = 0;
+
+    const images = Array.from(thumbnails).map(t => t.querySelector('img').src);
+
+    galleryMain.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    galleryMain.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - next image
+                currentIndex = (currentIndex + 1) % images.length;
+            } else {
+                // Swipe right - previous image
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+            }
+
+            // Update main image
+            const mainImage = document.getElementById('mainImage');
+            if (mainImage) {
+                mainImage.src = images[currentIndex];
+            }
+
+            // Update active thumbnail
+            thumbnails.forEach((t, i) => {
+                t.classList.toggle('active', i === currentIndex);
+            });
+        }
+    }
+}
 
 /**
  * Scroll Reveal Animation

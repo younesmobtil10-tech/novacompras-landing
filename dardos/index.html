@@ -65,11 +65,21 @@
 
             <div class="product-gallery">
                 <div class="gallery-main">
-                    <img src="images/product-1.jpg" alt="Porta-Dardos Diana - Vista Principal"
+                    <img src="images/product-main.png" alt="Porta-Dardos Diana - Vista Principal"
                         class="gallery-main-image" id="mainImage">
+                    <div class="swipe-hint">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M14 8l4 4-4 4M10 16l-4-4 4-4"></path>
+                        </svg>
+                        <span>Desliza para ver más</span>
+                    </div>
                 </div>
                 <div class="gallery-thumbnails">
-                    <button class="thumbnail active" onclick="changeImage('images/product-1.jpg', this)">
+                    <button class="thumbnail active" onclick="changeImage('images/product-main.png', this)">
+                        <img src="images/product-main.png" alt="Vista Principal">
+                    </button>
+                    <button class="thumbnail" onclick="changeImage('images/product-1.jpg', this)">
                         <img src="images/product-1.jpg" alt="Vista 1">
                     </button>
                     <button class="thumbnail" onclick="changeImage('images/product-2.jpg', this)">
