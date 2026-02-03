@@ -377,13 +377,14 @@ ol {
 .gallery-thumbnails {
     display: flex;
     justify-content: center;
-    gap: var(--spacing-sm);
-    flex-wrap: wrap;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 0;
 }
 
 .thumbnail {
-    width: 70px;
-    height: 70px;
+    width: 55px;
+    height: 55px;
     border-radius: var(--radius-sm);
     border: 2px solid transparent;
     padding: 0;
@@ -391,6 +392,7 @@ ol {
     cursor: pointer;
     overflow: hidden;
     transition: var(--transition-fast);
+    flex-shrink: 0;
 }
 
 .thumbnail img {
@@ -409,34 +411,10 @@ ol {
 }
 
 .swipe-hint {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-xs);
-    margin-top: var(--spacing-sm);
-    font-size: 0.8rem;
+    text-align: center;
+    margin-top: var(--spacing-xs);
+    font-size: 0.75rem;
     color: var(--color-text-muted);
-    animation: swipeHint 2s ease-in-out infinite;
-}
-
-.swipe-hint svg {
-    width: 20px;
-    height: 20px;
-    color: var(--color-accent-primary);
-}
-
-@keyframes swipeHint {
-
-    0%,
-    100% {
-        opacity: 0.5;
-        transform: translateX(0);
-    }
-
-    50% {
-        opacity: 1;
-        transform: translateX(5px);
-    }
 }
 
 .hero-image {
