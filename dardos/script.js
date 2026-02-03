@@ -1,7 +1,22 @@
 /**
  * Porta-Dardos Diana - Landing Page JS
- * Scroll reveal animations and FAQ interactions
+ * Scroll reveal animations, FAQ interactions, and product gallery
  */
+
+/**
+ * Product Gallery - Change main image
+ */
+function changeImage(src, thumbnail) {
+    const mainImage = document.getElementById('mainImage');
+    if (mainImage) {
+        mainImage.src = src;
+    }
+
+    // Update active thumbnail
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach(t => t.classList.remove('active'));
+    thumbnail.classList.add('active');
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize scroll reveal

@@ -63,8 +63,25 @@
                 </div>
             </div>
 
-            <div class="hero-image">
-                <img src="images/product-hero.png" alt="Porta-Dardos Diana - Organizador Premium" class="product-image">
+            <div class="product-gallery">
+                <div class="gallery-main">
+                    <img src="images/product-1.png" alt="Porta-Dardos Diana - Vista Principal"
+                        class="gallery-main-image" id="mainImage">
+                </div>
+                <div class="gallery-thumbnails">
+                    <button class="thumbnail active" onclick="changeImage('images/product-1.png', this)">
+                        <img src="images/product-1.png" alt="Vista 1">
+                    </button>
+                    <button class="thumbnail" onclick="changeImage('images/product-hero.png', this)">
+                        <img src="images/product-hero.png" alt="Vista 2">
+                    </button>
+                    <button class="thumbnail" onclick="changeImage('images/product-2.png', this)">
+                        <img src="images/product-2.png" alt="Vista 3">
+                    </button>
+                    <button class="thumbnail" onclick="changeImage('images/product-3.png', this)">
+                        <img src="images/product-3.png" alt="Vista 4">
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -278,14 +295,11 @@
                         <span class="cta-shipping">+ Envío a España</span>
                     </div>
 
-                    <a href="https://www.etsy.com/es/listing/1862008632" target="_blank" rel="noopener"
-                        class="btn btn-primary btn-large">
-                        <span>Comprar en Etsy</span>
+                    <a href="#" class="btn btn-primary btn-large">
+                        <span>Comprar Ahora</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
-                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                            <polyline points="15 3 21 3 21 9" />
-                            <line x1="10" y1="14" x2="21" y2="3" />
+                            <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
                     </a>
 
@@ -416,17 +430,14 @@
                 </div>
 
                 <div class="footer-cta">
-                    <a href="https://www.etsy.com/es/listing/1862008632" target="_blank" rel="noopener"
-                        class="btn btn-outline">
-                        Ver en Etsy
+                    <a href="#comprar" class="btn btn-outline">
+                        Comprar Ahora
                     </a>
                 </div>
             </div>
 
             <div class="footer-bottom">
                 <p>&copy; 2024 DartPro. Todos los derechos reservados.</p>
-                <p class="footer-etsy">Vendido exclusivamente a través de <a href="https://etsy.com" target="_blank"
-                        rel="noopener">Etsy</a></p>
             </div>
         </div>
     </footer>

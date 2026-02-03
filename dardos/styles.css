@@ -356,6 +356,58 @@ ol {
     color: var(--color-text-secondary);
 }
 
+.product-gallery {
+    margin-top: var(--spacing-lg);
+}
+
+.gallery-main {
+    margin-bottom: var(--spacing-md);
+}
+
+.gallery-main-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin: 0 auto;
+    display: block;
+    background: var(--color-bg-card);
+}
+
+.gallery-thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    padding: 0;
+    background: var(--color-bg-card);
+    cursor: pointer;
+    overflow: hidden;
+    transition: var(--transition-fast);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail:hover {
+    border-color: var(--color-accent-primary);
+    opacity: 0.8;
+}
+
+.thumbnail.active {
+    border-color: var(--color-accent-primary);
+}
+
 .hero-image {
     margin-top: var(--spacing-lg);
 }
@@ -951,11 +1003,20 @@ ol {
         grid-row: 5;
     }
 
-    .hero-image {
+    .hero-image,
+    .product-gallery {
         grid-column: 2;
         grid-row: 1 / -1;
         margin-top: 0;
         align-self: center;
+    }
+
+    .gallery-main-image {
+        max-width: 450px;
+    }
+
+    .gallery-thumbnails {
+        justify-content: flex-start;
     }
 
     .trust-badges {
