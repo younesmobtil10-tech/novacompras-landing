@@ -586,6 +586,13 @@ ol {
     transform: translate(-50%, -50%);
 }
 
+.personalization-image {
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
 .personalization-info {
     text-align: center;
 }
