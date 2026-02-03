@@ -901,29 +901,47 @@ ol {
     .hero-content {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        align-items: center;
+        grid-template-rows: auto auto auto auto auto;
+        align-items: start;
+        align-content: center;
         text-align: left;
-        gap: var(--spacing-xl);
+        gap: var(--spacing-sm) var(--spacing-xl);
         padding: var(--spacing-xl) var(--spacing-md);
         min-height: calc(100vh - 80px);
     }
 
-    .hero-badge,
-    .hero-title,
-    .hero-subtitle,
-    .hero-price,
+    .hero-badge {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+    }
+
+    .hero-title {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .hero-subtitle {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .hero-price {
+        grid-column: 1;
+        grid-row: 4;
+        justify-content: flex-start;
+    }
+
     .hero-cta-group {
         grid-column: 1;
+        grid-row: 5;
     }
 
     .hero-image {
         grid-column: 2;
         grid-row: 1 / -1;
         margin-top: 0;
-    }
-
-    .hero-price {
-        justify-content: flex-start;
+        align-self: center;
     }
 
     .trust-badges {
