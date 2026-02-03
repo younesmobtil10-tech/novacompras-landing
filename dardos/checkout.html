@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Porta-Dardos Diana | DartPro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .checkout-page {
+            min-height: 100vh;
+            background: var(--color-bg-primary);
+            padding: var(--spacing-lg) var(--spacing-md);
+        }
+
+        .checkout-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .checkout-logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .checkout-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .checkout-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .order-summary {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .order-item {
+            display: flex;
+            gap: var(--spacing-md);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .order-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+        }
+
+        .order-details {
+            flex: 1;
+        }
+
+        .order-name {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .order-personalization {
+            font-size: 0.85rem;
+            color: var(--color-accent-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .order-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            transition: var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-accent-primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-sm);
+        }
+
+        .payment-tabs {
+            display: flex;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 2px solid var(--color-border);
+        }
+
+        .payment-tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            background: var(--color-bg-primary);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            transition: var(--transition-fast);
+        }
+
+        .payment-tab.active {
+            background: var(--color-accent-primary);
+            color: white;
+        }
+
+        .payment-content {
+            display: none;
+        }
+
+        .payment-content.active {
+            display: block;
+        }
+
+        #card-element {
+            padding: 14px 16px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg-primary);
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.1rem;
+            margin-top: var(--spacing-md);
+        }
+
+        .cod-info {
+            background: rgba(67, 160, 71, 0.1);
+            border: 1px solid rgba(67, 160, 71, 0.3);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cod-info p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .cod-info strong {
+            color: var(--color-accent-secondary);
+        }
+
+        .secure-info {
+            text-align: center;
+            margin-top: var(--spacing-md);
+        }
+
+        .secure-info img {
+            max-width: 100%;
+            max-height: 80px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: var(--spacing-md);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: var(--color-accent-primary);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: var(--spacing-xs);
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="checkout-page">
+        <div class="checkout-container">
+            <div class="checkout-header">
+                <div class="checkout-logo">🎯 DartPro</div>
+                <h1 class="checkout-title">Finalizar Compra</h1>
+            </div>
+
+            <div class="checkout-card order-summary">
+                <div class="order-item">
+                    <img src="images/product-main.png" alt="Porta-Dardos Diana" class="order-image">
+                    <div class="order-details">
+                        <div class="order-name">Porta-Dardos Diana</div>
+                        <div class="order-personalization" id="orderPersonalization"></div>
+                        <div class="order-price">24,92€</div>
+                    </div>
+                </div>
+                <div class="order-total">
+                    <span>Total</span>
+                    <span>24,92€</span>
+                </div>
+            </div>
+
+            <div class="checkout-card">
+                <div class="payment-tabs">
+                    <button class="payment-tab active" data-tab="card">💳 Tarjeta</button>
+                    <button class="payment-tab" data-tab="cod">📦 Contrareembolso</button>
+                </div>
+
+                <form id="checkoutForm">
+                    <!-- Customer Info -->
+                    <div class="form-group">
+                        <label class="form-label">Nombre completo *</label>
+                        <input type="text" id="customerName" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" id="customerEmail" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Teléfono *</label>
+                        <input type="tel" id="customerPhone" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Dirección de envío *</label>
+                        <input type="text" id="customerAddress" class="form-input" placeholder="Calle, número, piso..."
+                            required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Código Postal *</label>
+                            <input type="text" id="customerPostal" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ciudad *</label>
+                            <input type="text" id="customerCity" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <!-- Card Payment -->
+                    <div class="payment-content active" id="cardPayment">
+                        <div class="form-group">
+                            <label class="form-label">Datos de la tarjeta</label>
+                            <div id="card-element"></div>
+                            <div id="card-errors" class="error-message"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-pay" id="btnPayCard">
+                            🔒 Pagar 24,92€
+                        </button>
+                    </div>
+
+                    <!-- COD Payment -->
+                    <div class="payment-content" id="codPayment">
+                        <div class="cod-info">
+                            <p><strong>Pago Contrareembolso:</strong> Pagarás al recibir el producto en tu domicilio. Se
+                                añade un cargo adicional de <strong>3€</strong> por gestión.</p>
+                        </div>
+                        <button type="submit" class="btn btn-secondary btn-pay" id="btnPayCod">
+                            📦 Confirmar Pedido (27,92€)
+                        </button>
+                    </div>
+                </form>
+
+                <div class="secure-info">
+                    <img src="images/pago-seguro.png" alt="Pago Seguro">
+                </div>
+            </div>
+
+            <a href="index.html" class="back-link">← Volver a la tienda</a>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const personalizationName = urlParams.get('name');
+        const paymentMethod = urlParams.get('method');
+
+        // Show personalization if exists
+        const personalizationEl = document.getElementById('orderPersonalization');
+        if (personalizationName) {
+            personalizationEl.textContent = `✏️ Personalizado: "${personalizationName}"`;
+        }
+
+        // Payment tabs
+        const tabs = document.querySelectorAll('.payment-tab');
+        const contents = document.querySelectorAll('.payment-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + 'Payment').classList.add('active');
+            });
+        });
+
+        // If COD method selected, switch to COD tab
+        if (paymentMethod === 'cod') {
+            tabs[1].click();
+        }
+
+        // Stripe initialization
+        const stripe = Stripe('pk_live_51QSjeoLt1IaaBRnx7HX7BqTZIYrRU69MGWMQsJMWxeP0TDKNlQ3UUhNPPWQKvC1TYN7xm8lL8Y5NeYGhEzVwmvZl00njQyqbY3');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    color: '#ffffff',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '16px',
+                    '::placeholder': { color: '#6b7280' }
+                }
+            }
+        });
+        cardElement.mount('#card-element');
+
+        cardElement.on('change', (event) => {
+            const displayError = document.getElementById('card-errors');
+            displayError.textContent = event.error ? event.error.message : '';
+        });
+
+        // Form submission
+        const form = document.getElementById('checkoutForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const activeTab = document.querySelector('.payment-tab.active').dataset.tab;
+            const formData = {
+                name: document.getElementById('customerName').value,
+                email: document.getElementById('customerEmail').value,
+                phone: document.getElementById('customerPhone').value,
+                address: document.getElementById('customerAddress').value,
+                postal: document.getElementById('customerPostal').value,
+                city: document.getElementById('customerCity').value,
+                personalization: personalizationName || '',
+                method: activeTab
+            };
+
+            if (activeTab === 'card') {
+                await processCardPayment(formData);
+            } else {
+                await processCodOrder(formData);
+            }
+        });
+
+        async function processCardPayment(formData) {
+            const btn = document.getElementById('btnPayCard');
+            btn.textContent = 'Procesando...';
+            btn.disabled = true;
+
+            try {
+                // Create payment intent
+                const response = await fetch('/api/create-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: 2492,
+                        ...formData
+                    })
+                });
+
+                const { clientSecret, error } = await response.json();
+                if (error) throw new Error(error);
+
+                // Confirm payment
+                const { paymentIntent, error: stripeError } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: {
+                            name: formData.name,
+                            email: formData.email
+                        }
+                    }
+                });
+
+                if (stripeError) {
+                    throw new Error(stripeError.message);
+                }
+
+                if (paymentIntent.status === 'succeeded') {
+                    window.location.href = 'thank-you.html?order=' + paymentIntent.id;
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+                btn.textContent = '🔒 Pagar 24,92€';
+                btn.disabled = false;
+            }
+        }
+
+        async function processCodOrder(formData) {
+            const btn = document.getElementById('btnPayCod');
+            btn.textContent = 'Procesando...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: 2792,
+                        ...formData
+                    })
+                });
+
+                const { orderId, error } = await response.json();
+                if (error) throw new Error(error);
+
+                window.location.href = 'thank-you.html?order=' + orderId;
+            } catch (err) {
+                alert('Error: ' + err.message);
+                btn.textContent = '📦 Confirmar Pedido (27,92€)';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

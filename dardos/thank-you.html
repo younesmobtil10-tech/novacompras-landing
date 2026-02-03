@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Pedido Confirmado! - DartPro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .thank-you-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-primary);
+            padding: var(--spacing-lg);
+        }
+
+        .thank-you-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--color-accent-secondary), #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: 40px;
+            animation: bounceIn 0.5s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .thank-you-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .thank-you-subtitle {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .order-number {
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .order-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: var(--color-accent-primary);
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+
+        .delivery-info {
+            background: rgba(67, 160, 71, 0.1);
+            border: 1px solid rgba(67, 160, 71, 0.3);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .delivery-info p {
+            color: var(--color-text-secondary);
+        }
+
+        .delivery-info strong {
+            color: var(--color-accent-secondary);
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .back-home:hover {
+            color: var(--color-accent-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="thank-you-page">
+        <div class="thank-you-card">
+            <div class="success-icon">✓</div>
+            <h1 class="thank-you-title">¡Pedido Confirmado!</h1>
+            <p class="thank-you-subtitle">Gracias por tu compra. Recibirás un email de confirmación en breve.</p>
+
+            <div class="order-number">
+                <div class="order-label">Número de pedido</div>
+                <div class="order-id" id="orderId">-</div>
+            </div>
+
+            <div class="delivery-info">
+                <p>📦 Tu <strong>Porta-Dardos Diana</strong> personalizado se está preparando. Recibirás el número de
+                    seguimiento por email.</p>
+            </div>
+
+            <a href="index.html" class="back-home">
+                ← Volver a la tienda
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order');
+        if (orderId) {
+            document.getElementById('orderId').textContent = orderId;
+        }
+    </script>
+</body>
+
+</html>

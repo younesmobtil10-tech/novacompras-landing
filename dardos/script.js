@@ -80,6 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize touch swipe for gallery
     initTouchSwipe();
+
+    // Initialize countdown timer
+    initCountdown();
+
+    // Initialize character counter for personalization
+    initCharCounter();
+
+    // Initialize checkout buttons with personalization
+    initCheckoutButtons();
 });
 
 /**
@@ -213,3 +222,77 @@ function addStaggerDelay() {
 
 // Call stagger delay on load
 addStaggerDelay();
+
+/**
+ * Countdown Timer for Urgency
+ */
+function initCountdown() {
+    const countdownEl = document.getElementById('countdown');
+    if (!countdownEl) return;
+
+    // Get or set end time in localStorage (5 hours from now)
+    let endTime = localStorage.getItem('dardos_countdown_end');
+
+    if (!endTime || parseInt(endTime) < Date.now()) {
+        endTime = Date.now() + (5 * 60 * 60 * 1000); // 5 hours
+        localStorage.setItem('dardos_countdown_end', endTime);
+    }
+
+    function updateCountdown() {
+        const now = Date.now();
+        const remaining = parseInt(endTime) - now;
+
+        if (remaining <= 0) {
+            // Reset countdown
+            endTime = Date.now() + (5 * 60 * 60 * 1000);
+            localStorage.setItem('dardos_countdown_end', endTime);
+        }
+
+        const hours = Math.floor(remaining / (1000 * 60 * 60));
+        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+        countdownEl.textContent =
+            String(hours).padStart(2, '0') + ':' +
+            String(minutes).padStart(2, '0') + ':' +
+            String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+/**
+ * Character Counter for Personalization Input
+ */
+function initCharCounter() {
+    const input = document.getElementById('personalizationName');
+    const counter = document.getElementById('charCount');
+
+    if (!input || !counter) return;
+
+    input.addEventListener('input', () => {
+        counter.textContent = input.value.length;
+    });
+}
+
+/**
+ * Checkout Buttons - Pass personalization to checkout page
+ */
+function initCheckoutButtons() {
+    const buttons = document.querySelectorAll('.btn-checkout, .btn-cod');
+    const input = document.getElementById('personalizationName');
+
+    if (!buttons.length || !input) return;
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = input.value.trim();
+            const baseUrl = btn.getAttribute('href');
+            const separator = baseUrl.includes('?') ? '&' : '?';
+            const url = name ? `${baseUrl}${separator}name=${encodeURIComponent(name)}` : baseUrl;
+            window.location.href = url;
+        });
+    });
+}

@@ -887,6 +887,158 @@ ol {
 .cta-shipping {
     font-size: 0.875rem;
     color: var(--color-accent-secondary);
+    font-weight: 600;
+}
+
+/* Urgency Banner */
+.urgency-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    background: linear-gradient(90deg, #ff6b35, #f7931e);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.95rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.urgency-icon {
+    font-size: 1.2rem;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* Personalization Box */
+.personalization-box {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.personalization-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-primary);
+}
+
+.label-icon {
+    font-size: 1.2rem;
+}
+
+.personalization-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.4;
+}
+
+.personalization-input-wrapper {
+    position: relative;
+    margin-bottom: var(--spacing-xs);
+}
+
+.personalization-input {
+    width: 100%;
+    padding: 14px 16px;
+    padding-right: 60px;
+    font-size: 1rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    transition: var(--transition-fast);
+}
+
+.personalization-input:focus {
+    outline: none;
+    border-color: var(--color-accent-primary);
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.2);
+}
+
+.char-counter {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.personalization-note {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* Payment Buttons */
+.payment-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.btn-checkout {
+    font-size: 1.2rem !important;
+    padding: 18px 32px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(233, 30, 99, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(233, 30, 99, 0.8);
+    }
+}
+
+.btn-cod {
+    background: transparent;
+    border: 2px solid var(--color-accent-secondary);
+    color: var(--color-accent-secondary);
+}
+
+.btn-cod:hover {
+    background: var(--color-accent-secondary);
+    color: white;
+}
+
+/* Secure Payment */
+.secure-payment {
+    margin-bottom: var(--spacing-md);
+}
+
+.secure-badges-img {
+    max-width: 100%;
+    max-height: 120px;
+    object-fit: contain;
 }
 
 .cta-guarantees {
