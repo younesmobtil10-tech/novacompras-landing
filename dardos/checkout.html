@@ -4,468 +4,759 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - Porta-Dardos Diana | DartPro</title>
+    <title>Checkout - Porta-Dardos Premium</title>
+    <meta name="description" content="Completa tu pedido del porta-dardos premium personalizado.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://js.stripe.com/v3/"></script>
+
     <style>
         .checkout-page {
             min-height: 100vh;
-            background: var(--color-bg-primary);
-            padding: var(--spacing-lg) var(--spacing-md);
-        }
-
-        .checkout-container {
-            max-width: 500px;
-            margin: 0 auto;
+            background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
         }
 
         .checkout-header {
-            text-align: center;
-            margin-bottom: var(--spacing-lg);
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-border);
         }
 
-        .checkout-logo {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
+        .checkout-header .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .checkout-header .back-link:hover {
             color: var(--color-accent-primary);
-            margin-bottom: var(--spacing-sm);
         }
 
-        .checkout-title {
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-xs);
+        .checkout-header .back-link svg {
+            width: 18px;
+            height: 18px;
         }
 
-        .checkout-card {
+        .checkout-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr 1.2fr;
+                padding: 3rem 1rem;
+            }
+        }
+
+        .checkout-summary {
             background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-md);
+            padding: 1.5rem;
+            height: fit-content;
         }
 
-        .order-summary {
-            margin-bottom: var(--spacing-lg);
+        .checkout-summary h2 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-text-primary);
         }
 
-        .order-item {
+        .product-card {
             display: flex;
-            gap: var(--spacing-md);
-            padding-bottom: var(--spacing-md);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
             border-bottom: 1px solid var(--color-border);
-            margin-bottom: var(--spacing-md);
         }
 
-        .order-image {
+        .product-card img {
             width: 80px;
             height: 80px;
-            border-radius: var(--radius-md);
             object-fit: cover;
+            border-radius: 8px;
         }
 
-        .order-details {
-            flex: 1;
+        .product-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-primary);
         }
 
-        .order-name {
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
+        .product-info p {
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
         }
 
-        .order-personalization {
+        .personalization-display {
+            background: rgba(229, 57, 53, 0.1);
+            border: 1px solid rgba(229, 57, 53, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
             font-size: 0.85rem;
+        }
+
+        .personalization-display strong {
             color: var(--color-accent-primary);
-            margin-bottom: var(--spacing-xs);
         }
 
-        .order-price {
-            font-weight: 700;
-            font-size: 1.2rem;
+        .price-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
-        .order-total {
+        .price-row {
             display: flex;
             justify-content: space-between;
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .form-group {
-            margin-bottom: var(--spacing-md);
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: var(--spacing-xs);
-            font-weight: 500;
-            color: var(--color-text-secondary);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 1rem;
-            border: 2px solid var(--color-border);
-            border-radius: var(--radius-md);
-            background: var(--color-bg-primary);
-            color: var(--color-text-primary);
-            transition: var(--transition-fast);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--color-accent-primary);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-sm);
-        }
-
-        .payment-tabs {
-            display: flex;
-            margin-bottom: var(--spacing-md);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            border: 2px solid var(--color-border);
-        }
-
-        .payment-tab {
-            flex: 1;
-            padding: 14px;
-            text-align: center;
-            background: var(--color-bg-primary);
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--color-text-secondary);
-            transition: var(--transition-fast);
-        }
-
-        .payment-tab.active {
-            background: var(--color-accent-primary);
-            color: white;
-        }
-
-        .payment-content {
-            display: none;
-        }
-
-        .payment-content.active {
-            display: block;
-        }
-
-        #card-element {
-            padding: 14px 16px;
-            border: 2px solid var(--color-border);
-            border-radius: var(--radius-md);
-            background: var(--color-bg-primary);
-        }
-
-        .btn-pay {
-            width: 100%;
-            padding: 18px;
-            font-size: 1.1rem;
-            margin-top: var(--spacing-md);
-        }
-
-        .cod-info {
-            background: rgba(67, 160, 71, 0.1);
-            border: 1px solid rgba(67, 160, 71, 0.3);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .cod-info p {
             font-size: 0.9rem;
             color: var(--color-text-secondary);
         }
 
-        .cod-info strong {
-            color: var(--color-accent-secondary);
+        .price-row.total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--color-border);
+            color: var(--color-text-primary);
         }
 
-        .secure-info {
-            text-align: center;
-            margin-top: var(--spacing-md);
+        .price-row .free {
+            color: #25D366;
         }
 
-        .secure-info img {
-            max-width: 100%;
-            max-height: 80px;
+        .checkout-forms h1 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-primary);
         }
 
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: var(--spacing-md);
+        .checkout-subtitle {
             color: var(--color-text-secondary);
-            text-decoration: none;
+            margin-bottom: 1.5rem;
         }
 
-        .back-link:hover {
-            color: var(--color-accent-primary);
+        .payment-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .error-message {
-            color: #e74c3c;
+        .payment-tab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-secondary);
             font-size: 0.85rem;
-            margin-top: var(--spacing-xs);
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
+        .payment-tab svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .payment-tab.active {
+            background: linear-gradient(135deg, #ff9900, #e47911);
+            border-color: #ff9900;
+            color: #111;
+        }
+
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .payment-form.hidden {
+            display: none;
+        }
+
+        .form-section h3 {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-primary);
+        }
+
+        .form-row {
+            margin-bottom: 1rem;
+        }
+
+        .form-row label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-row input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            color: var(--color-text-primary);
+            font-size: 0.9rem;
+        }
+
+        .form-row input:focus {
+            outline: none;
+            border-color: var(--color-accent-primary);
+        }
+
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .card-element {
+            padding: 1rem;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+        }
+
+        .card-errors {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ff9900, #e47911);
+            border: none;
+            border-radius: 8px;
+            color: #111;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 153, 0, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cod-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(67, 160, 71, 0.1);
+            border: 1px solid rgba(67, 160, 71, 0.3);
+            border-radius: 8px;
+        }
+
+        .cod-info svg {
+            width: 20px;
+            height: 20px;
+            color: #43a047;
+            flex-shrink: 0;
+        }
+
+        .cod-info p {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #111;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .spinner.hidden {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .payment-success {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .payment-success.hidden {
+            display: none;
+        }
+
+        .success-icon svg {
+            width: 64px;
+            height: 64px;
+            color: #25D366;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-success h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-primary);
+        }
+
+        .payment-success p {
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .security-badges .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .security-badges svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .help-text {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--color-border);
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <div class="checkout-page">
+        <!-- Header -->
+        <header class="checkout-header">
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Volver a la página principal
+            </a>
+        </header>
+
         <div class="checkout-container">
-            <div class="checkout-header">
-                <div class="checkout-logo">🎯 DartPro</div>
-                <h1 class="checkout-title">Finalizar Compra</h1>
-            </div>
+            <!-- Product Summary -->
+            <aside class="checkout-summary">
+                <h2>Resumen del pedido</h2>
 
-            <div class="checkout-card order-summary">
-                <div class="order-item">
-                    <img src="images/product-main.png" alt="Porta-Dardos Diana" class="order-image">
-                    <div class="order-details">
-                        <div class="order-name">Porta-Dardos Diana</div>
-                        <div class="order-personalization" id="orderPersonalization"></div>
-                        <div class="order-price">24,92€</div>
+                <div class="product-card">
+                    <img src="images/product-1.jpg" alt="Porta-Dardos Premium">
+                    <div class="product-info">
+                        <h3>Porta-Dardos Premium</h3>
+                        <p>Personalizado · Madera de alta calidad</p>
                     </div>
                 </div>
-                <div class="order-total">
-                    <span>Total</span>
-                    <span>24,92€</span>
-                </div>
-            </div>
 
-            <div class="checkout-card">
+                <div id="personalization-display" class="personalization-display" style="display: none;">
+                    Personalización: <strong id="personalization-text"></strong>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Subtotal</span>
+                        <span>24,92€</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Envío</span>
+                        <span class="free">GRATIS</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total</span>
+                        <span>24,92€</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Payment Forms -->
+            <main class="checkout-forms">
+                <h1>Finalizar compra</h1>
+                <p class="checkout-subtitle">Elige tu método de pago preferido</p>
+
+                <!-- Payment Tabs -->
                 <div class="payment-tabs">
-                    <button class="payment-tab active" data-tab="card">💳 Tarjeta</button>
-                    <button class="payment-tab" data-tab="cod">📦 Contrareembolso</button>
+                    <button class="payment-tab active" data-tab="card">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                            <line x1="1" y1="10" x2="23" y2="10" />
+                        </svg>
+                        Tarjeta
+                    </button>
+                    <button class="payment-tab" data-tab="cod">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                        </svg>
+                        Contrareembolso
+                    </button>
                 </div>
 
-                <form id="checkoutForm">
-                    <!-- Customer Info -->
-                    <div class="form-group">
-                        <label class="form-label">Nombre completo *</label>
-                        <input type="text" id="customerName" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Email *</label>
-                        <input type="email" id="customerEmail" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Teléfono *</label>
-                        <input type="tel" id="customerPhone" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Dirección de envío *</label>
-                        <input type="text" id="customerAddress" class="form-input" placeholder="Calle, número, piso..."
-                            required>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Código Postal *</label>
-                            <input type="text" id="customerPostal" class="form-input" required>
+                <!-- Card Payment Form -->
+                <form id="payment-form" class="payment-form">
+                    <div class="form-section">
+                        <h3>Información personal</h3>
+                        <div class="form-row">
+                            <label for="customer-name">Nombre completo</label>
+                            <input type="text" id="customer-name" placeholder="Tu nombre" required>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Ciudad *</label>
-                            <input type="text" id="customerCity" class="form-input" required>
+                        <div class="form-row">
+                            <label for="customer-email">Email</label>
+                            <input type="email" id="customer-email" placeholder="tu@email.com" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="customer-phone">Teléfono</label>
+                            <input type="tel" id="customer-phone" placeholder="+34 600 000 000" required>
                         </div>
                     </div>
 
-                    <!-- Card Payment -->
-                    <div class="payment-content active" id="cardPayment">
-                        <div class="form-group">
-                            <label class="form-label">Datos de la tarjeta</label>
-                            <div id="card-element"></div>
-                            <div id="card-errors" class="error-message"></div>
+                    <div class="form-section">
+                        <h3>Dirección de envío</h3>
+                        <div class="form-row">
+                            <label for="customer-address">Dirección</label>
+                            <input type="text" id="customer-address" placeholder="Calle, número, piso..." required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-pay" id="btnPayCard">
-                            🔒 Pagar 24,92€
-                        </button>
+                        <div class="form-row two-cols">
+                            <div>
+                                <label for="customer-city">Ciudad</label>
+                                <input type="text" id="customer-city" placeholder="Ciudad" required>
+                            </div>
+                            <div>
+                                <label for="customer-postal">Código postal</label>
+                                <input type="text" id="customer-postal" placeholder="00000" required>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- COD Payment -->
-                    <div class="payment-content" id="codPayment">
-                        <div class="cod-info">
-                            <p><strong>Pago Contrareembolso:</strong> Pagarás al recibir el producto en tu domicilio. Se
-                                añade un cargo adicional de <strong>3€</strong> por gestión.</p>
+                    <div class="form-section" id="card-section">
+                        <h3>Datos de pago</h3>
+                        <div class="form-row">
+                            <label>Número de tarjeta</label>
+                            <div id="card-element" class="card-element">
+                                <!-- Stripe Elements will be inserted here -->
+                            </div>
+                            <div id="card-errors" class="card-errors" role="alert"></div>
                         </div>
-                        <button type="submit" class="btn btn-secondary btn-pay" id="btnPayCod">
-                            📦 Confirmar Pedido (27,92€)
-                        </button>
                     </div>
+
+                    <div class="security-badges">
+                        <div class="badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0110 0v4" />
+                            </svg>
+                            <span>Pago seguro</span>
+                        </div>
+                        <div class="badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            <span>SSL 256 bits</span>
+                        </div>
+                        <div class="badge">
+                            <span>Powered by <strong>Stripe</strong></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-button" class="submit-btn">
+                        <span id="button-text">PAGAR 24,92€</span>
+                        <div id="spinner" class="spinner hidden"></div>
+                    </button>
                 </form>
 
-                <div class="secure-info">
-                    <img src="images/pago-seguro.png" alt="Pago Seguro">
-                </div>
-            </div>
+                <!-- COD Form (hidden by default) -->
+                <form id="cod-form" class="payment-form hidden">
+                    <div class="form-section">
+                        <h3>Información personal</h3>
+                        <div class="form-row">
+                            <label for="cod-name">Nombre completo</label>
+                            <input type="text" id="cod-name" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="cod-email">Email</label>
+                            <input type="email" id="cod-email" placeholder="tu@email.com" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="cod-phone">Teléfono</label>
+                            <input type="tel" id="cod-phone" placeholder="+34 600 000 000" required>
+                        </div>
+                    </div>
 
-            <a href="index.html" class="back-link">← Volver a la tienda</a>
+                    <div class="form-section">
+                        <h3>Dirección de envío</h3>
+                        <div class="form-row">
+                            <label for="cod-address">Dirección</label>
+                            <input type="text" id="cod-address" placeholder="Calle, número, piso..." required>
+                        </div>
+                        <div class="form-row two-cols">
+                            <div>
+                                <label for="cod-city">Ciudad</label>
+                                <input type="text" id="cod-city" placeholder="Ciudad" required>
+                            </div>
+                            <div>
+                                <label for="cod-postal">Código postal</label>
+                                <input type="text" id="cod-postal" placeholder="00000" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cod-info">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="16" x2="12" y2="12" />
+                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                        <p>Pagarás <strong>24,92€</strong> al mensajero cuando recibas tu Porta-Dardos.
+                            Envío en 24-48h.</p>
+                    </div>
+
+                    <button type="submit" id="cod-submit" class="submit-btn">
+                        CONFIRMAR PEDIDO
+                    </button>
+                </form>
+
+                <p class="help-text">
+                    ¿Necesitas ayuda? Escríbenos a soporte@novacompras.es
+                </p>
+            </main>
         </div>
     </div>
 
     <script>
-        // Get URL parameters
+        // Get personalization from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const personalizationName = urlParams.get('name');
+        const personalization = urlParams.get('name');
         const paymentMethod = urlParams.get('method');
 
-        // Show personalization if exists
-        const personalizationEl = document.getElementById('orderPersonalization');
-        if (personalizationName) {
-            personalizationEl.textContent = `✏️ Personalizado: "${personalizationName}"`;
+        // Display personalization if present
+        if (personalization) {
+            document.getElementById('personalization-display').style.display = 'block';
+            document.getElementById('personalization-text').textContent = personalization;
         }
 
-        // Payment tabs
-        const tabs = document.querySelectorAll('.payment-tab');
-        const contents = document.querySelectorAll('.payment-content');
+        // Initialize Stripe
+        const stripe = Stripe('pk_live_51RtmQKE7v8XwdE8aZiuPgNAFAfmZJhKZkeqeZFC7z3d0NYx6g5GQXj3jQ7JpWz55fp0SFOaAlMk3CpJcY9FjYFK100WhuNw43Q');
+        const elements = stripe.elements({
+            fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap' }]
+        });
 
-        tabs.forEach(tab => {
+        // Custom styling for card element
+        const cardStyle = {
+            base: {
+                color: '#ffffff',
+                fontFamily: '"Inter", sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': { color: '#888888' },
+                iconColor: '#e53935'
+            },
+            invalid: {
+                color: '#ff6b6b',
+                iconColor: '#ff6b6b'
+            }
+        };
+
+        // Create card element
+        const cardElement = elements.create('card', { style: cardStyle });
+        cardElement.mount('#card-element');
+
+        // Handle card errors
+        cardElement.on('change', function (event) {
+            const displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Payment tab switching
+        const paymentTabs = document.querySelectorAll('.payment-tab');
+        const paymentForm = document.getElementById('payment-form');
+        const codForm = document.getElementById('cod-form');
+
+        // Set initial tab based on URL parameter
+        if (paymentMethod === 'cod') {
+            paymentTabs.forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tab="cod"]').classList.add('active');
+            paymentForm.classList.add('hidden');
+            codForm.classList.remove('hidden');
+        }
+
+        paymentTabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                contents.forEach(c => c.classList.remove('active'));
+                paymentTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                document.getElementById(tab.dataset.tab + 'Payment').classList.add('active');
+
+                if (tab.dataset.tab === 'card') {
+                    paymentForm.classList.remove('hidden');
+                    codForm.classList.add('hidden');
+                } else {
+                    paymentForm.classList.add('hidden');
+                    codForm.classList.remove('hidden');
+                }
             });
         });
 
-        // If COD method selected, switch to COD tab
-        if (paymentMethod === 'cod') {
-            tabs[1].click();
-        }
+        // Handle card payment form submission
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-button');
+        const buttonText = document.getElementById('button-text');
+        const spinner = document.getElementById('spinner');
 
-        // Stripe initialization
-        const stripe = Stripe('pk_live_51QSjeoLt1IaaBRnx7HX7BqTZIYrRU69MGWMQsJMWxeP0TDKNlQ3UUhNPPWQKvC1TYN7xm8lL8Y5NeYGhEzVwmvZl00njQyqbY3');
-        const elements = stripe.elements();
-        const cardElement = elements.create('card', {
-            style: {
-                base: {
-                    color: '#ffffff',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '16px',
-                    '::placeholder': { color: '#6b7280' }
-                }
-            }
-        });
-        cardElement.mount('#card-element');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
 
-        cardElement.on('change', (event) => {
-            const displayError = document.getElementById('card-errors');
-            displayError.textContent = event.error ? event.error.message : '';
-        });
-
-        // Form submission
-        const form = document.getElementById('checkoutForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const activeTab = document.querySelector('.payment-tab.active').dataset.tab;
-            const formData = {
-                name: document.getElementById('customerName').value,
-                email: document.getElementById('customerEmail').value,
-                phone: document.getElementById('customerPhone').value,
-                address: document.getElementById('customerAddress').value,
-                postal: document.getElementById('customerPostal').value,
-                city: document.getElementById('customerCity').value,
-                personalization: personalizationName || '',
-                method: activeTab
-            };
-
-            if (activeTab === 'card') {
-                await processCardPayment(formData);
-            } else {
-                await processCodOrder(formData);
-            }
-        });
-
-        async function processCardPayment(formData) {
-            const btn = document.getElementById('btnPayCard');
-            btn.textContent = 'Procesando...';
-            btn.disabled = true;
+            submitButton.disabled = true;
+            buttonText.classList.add('hidden');
+            spinner.classList.remove('hidden');
 
             try {
-                // Create payment intent
+                const name = document.getElementById('customer-name').value;
+                const email = document.getElementById('customer-email').value;
+                const phone = document.getElementById('customer-phone').value;
+                const address = document.getElementById('customer-address').value;
+                const city = document.getElementById('customer-city').value;
+                const postal = document.getElementById('customer-postal').value;
+
+                // Create payment intent on server
                 const response = await fetch('/api/create-payment', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         amount: 2492,
-                        ...formData
+                        name, email, phone, address, city, postal,
+                        personalization: personalization || '',
+                        product: 'porta-dardos-premium'
                     })
                 });
 
-                const { clientSecret, error } = await response.json();
-                if (error) throw new Error(error);
+                const { clientSecret, error: serverError } = await response.json();
 
-                // Confirm payment
-                const { paymentIntent, error: stripeError } = await stripe.confirmCardPayment(clientSecret, {
+                if (serverError) {
+                    throw new Error(serverError);
+                }
+
+                // Confirm payment with Stripe
+                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
                     payment_method: {
                         card: cardElement,
                         billing_details: {
-                            name: formData.name,
-                            email: formData.email
+                            name: name,
+                            email: email,
+                            phone: phone,
+                            address: {
+                                line1: address,
+                                city: city,
+                                postal_code: postal,
+                                country: 'ES'
+                            }
                         }
                     }
                 });
 
-                if (stripeError) {
-                    throw new Error(stripeError.message);
+                if (error) {
+                    throw new Error(error.message);
                 }
 
                 if (paymentIntent.status === 'succeeded') {
-                    window.location.href = 'thank-you.html?order=' + paymentIntent.id;
+                    // Show success
+                    window.location.href = 'thank-you.html?order=' + paymentIntent.id + '&method=card';
                 }
-            } catch (err) {
-                alert('Error: ' + err.message);
-                btn.textContent = '🔒 Pagar 24,92€';
-                btn.disabled = false;
+            } catch (error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+                submitButton.disabled = false;
+                buttonText.classList.remove('hidden');
+                spinner.classList.add('hidden');
             }
-        }
+        });
 
-        async function processCodOrder(formData) {
-            const btn = document.getElementById('btnPayCod');
-            btn.textContent = 'Procesando...';
-            btn.disabled = true;
+        // Handle COD form submission
+        const codFormElement = document.getElementById('cod-form');
+        codFormElement.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('cod-name').value;
+            const email = document.getElementById('cod-email').value;
+            const phone = document.getElementById('cod-phone').value;
+            const address = document.getElementById('cod-address').value;
+            const city = document.getElementById('cod-city').value;
+            const postal = document.getElementById('cod-postal').value;
 
             try {
                 const response = await fetch('/api/create-order', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        amount: 2792,
-                        ...formData
+                        name, email, phone, address, city, postal,
+                        personalization: personalization || '',
+                        amount: 2492,
+                        product: 'porta-dardos-premium'
                     })
                 });
 
                 const { orderId, error } = await response.json();
-                if (error) throw new Error(error);
 
-                window.location.href = 'thank-you.html?order=' + orderId;
-            } catch (err) {
-                alert('Error: ' + err.message);
-                btn.textContent = '📦 Confirmar Pedido (27,92€)';
-                btn.disabled = false;
+                if (error) {
+                    throw new Error(error);
+                }
+
+                window.location.href = 'thank-you.html?order=' + orderId + '&method=cod';
+            } catch (error) {
+                alert('Error al procesar el pedido: ' + error.message);
             }
-        }
+        });
     </script>
 </body>
 
