@@ -18,6 +18,59 @@ function changeImage(src, thumbnail) {
     thumbnail.classList.add('active');
 }
 
+/**
+ * Generate personalized preview via Gemini API
+ */
+async function generatePreview() {
+    const nameInput = document.getElementById('customName');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const previewResult = document.getElementById('previewResult');
+    const previewImage = document.getElementById('previewImage');
+    const generateBtn = document.getElementById('generateBtn');
+
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        alert('Por favor, escribe un nombre');
+        nameInput.focus();
+        return;
+    }
+
+    // Show loading state
+    btnText.textContent = 'Generando...';
+    btnSpinner.classList.remove('hidden');
+    generateBtn.disabled = true;
+    previewResult.classList.add('hidden');
+
+    try {
+        const response = await fetch('/api/generate-preview', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.image) {
+            previewImage.src = data.image;
+            previewResult.classList.remove('hidden');
+        } else {
+            alert(data.error || 'Error al generar la imagen. Inténtalo de nuevo.');
+        }
+    } catch (error) {
+        console.error('Preview error:', error);
+        alert('Error de conexión. Inténtalo de nuevo.');
+    } finally {
+        // Reset button state
+        btnText.textContent = 'Ver Preview';
+        btnSpinner.classList.add('hidden');
+        generateBtn.disabled = false;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize scroll reveal
     initScrollReveal();

@@ -210,6 +210,25 @@
                             </p>
                         </div>
                     </div>
+
+                    <!-- Interactive Preview Section -->
+                    <div class="name-preview-section">
+                        <h3 class="preview-title">🪄 ¡Prueba cómo quedaría tu nombre!</h3>
+                        <div class="preview-input-group">
+                            <input type="text" id="customName" class="name-input" placeholder="Escribe tu nombre..."
+                                maxlength="20">
+                            <button type="button" id="generateBtn" class="btn btn-secondary"
+                                onclick="generatePreview()">
+                                <span id="btnText">Ver Preview</span>
+                                <span id="btnSpinner" class="spinner hidden"></span>
+                            </button>
+                        </div>
+                        <div id="previewResult" class="preview-result hidden">
+                            <img id="previewImage" src="" alt="Tu nombre personalizado">
+                            <p class="preview-caption">Así quedaría tu Porta-Dardos personalizado ✨</p>
+                        </div>
+                        <p class="preview-note">* La imagen es generada por IA como muestra orientativa</p>
+                    </div>
                 </div>
             </div>
         </div>
