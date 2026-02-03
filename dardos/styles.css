@@ -975,42 +975,51 @@ ol {
 .payment-buttons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: var(--spacing-sm);
     max-width: 100%;
 }
 
 .btn-checkout {
-    font-size: 1.1rem;
-    padding: 16px 32px;
+    font-size: 1.15rem;
+    padding: 18px 40px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     font-weight: 700;
     border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #e91e63, #c2185b);
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+    transition: all 0.3s ease;
 }
 
-.btn-outline {
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: var(--color-text-primary);
-}
-
-.btn-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+.btn-checkout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.5);
 }
 
 .btn-cod {
-    font-size: 0.95rem;
-    padding: 14px 28px;
+    font-size: 1rem;
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid #43a047;
+    color: #43a047;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-cod:hover {
+    background: #43a047;
+    color: white;
+    box-shadow: 0 4px 15px rgba(67, 160, 71, 0.3);
 }
 
 /* Secure Payment */
 .secure-badges-img {
-    max-width: 280px;
+    display: block;
+    max-width: 300px;
     height: auto;
-    opacity: 0.85;
-    margin: var(--spacing-sm) 0;
+    opacity: 0.9;
+    margin: var(--spacing-sm) auto;
 }
 
 .cta-guarantees {
