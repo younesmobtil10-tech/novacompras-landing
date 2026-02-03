@@ -1,4 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import fs from "fs";
+import path from "path";
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -28,7 +30,12 @@ export default async function handler(req, res) {
     try {
         const genAI = new GoogleGenerativeAI(apiKey);
 
-        // Use Gemini with image generation capability
+        // Read the base image
+        const imagePath = path.join(process.cwd(), "dardos", "images", "base-personalization.png");
+        const imageData = fs.readFileSync(imagePath);
+        const base64Image = imageData.toString("base64");
+
+        // Use Gemini with image editing capability
         const model = genAI.getGenerativeModel({
             model: "gemini-2.0-flash-exp-image-generation",
             generationConfig: {
@@ -36,34 +43,36 @@ export default async function handler(req, res) {
             }
         });
 
-        const prompt = `Generate a product image of a dart holder organizer:
-    - Black circular base designed like a mini dartboard with classic dartboard pattern
-    - Has 3 darts with yellow/green striped flights standing upright on the holder
-    - White text on the front edge reads exactly: "${name}"
-    - Clean white/off-white studio background
-    - Professional product photography style
-    - The text should be the same font and size as shown on similar dart holders
-    - High quality commercial product shot`;
+        const prompt = `Edit this image. Keep everything exactly the same (the dart holder, darts, background, lighting, all details). ONLY change the text "Dardos de Papá" on the front edge of the dart holder to read "${name}" instead. The new text must use the exact same font style, size, color (white) and position as the original text. Do not change anything else in the image - keep the exact same product, darts, background, everything.`;
 
-        const response = await model.generateContent(prompt);
+        const response = await model.generateContent([
+            prompt,
+            {
+                inlineData: {
+                    mimeType: "image/png",
+                    data: base64Image
+                }
+            }
+        ]);
+
         const result = response.response;
 
         // Extract image from response
-        let imageData = null;
+        let imageDataResult = null;
         for (const part of result.candidates[0].content.parts) {
             if (part.inlineData) {
-                imageData = part.inlineData.data;
+                imageDataResult = part.inlineData.data;
                 break;
             }
         }
 
-        if (!imageData) {
+        if (!imageDataResult) {
             return res.status(500).json({ error: "No image generated" });
         }
 
         return res.status(200).json({
             success: true,
-            image: `data:image/png;base64,${imageData}`
+            image: `data:image/png;base64,${imageDataResult}`
         });
 
     } catch (error) {
