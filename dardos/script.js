@@ -19,6 +19,23 @@ function changeImage(src, thumbnail) {
 }
 
 /**
+ * Show more reviews - toggle hidden reviews visibility
+ */
+function showMoreReviews() {
+    const hiddenReviews = document.querySelectorAll('.hidden-review');
+    const showMoreBtn = document.getElementById('showMoreBtn');
+
+    hiddenReviews.forEach(review => {
+        review.classList.add('visible');
+    });
+
+    // Hide the button after showing all reviews
+    if (showMoreBtn) {
+        showMoreBtn.classList.add('hidden');
+    }
+}
+
+/**
  * Generate personalized preview via Gemini API
  */
 async function generatePreview() {

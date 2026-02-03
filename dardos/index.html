@@ -62,6 +62,11 @@
                     </button>
                 </div>
                 <p class="swipe-hint">Desliza para ver más fotos</p>
+
+                <a href="#opiniones" class="hero-rating">
+                    <span class="hero-stars">★★★★★</span>
+                    <span class="hero-rating-text">4.9/5 · 127 opiniones verificadas</span>
+                </a>
             </div>
 
             <p class="hero-subtitle">Mantén tus accesorios de dardos organizados y a mano con este elegante soporte.
@@ -247,8 +252,10 @@
                 </div>
             </div>
 
-            <div class="reviews-grid">
+            <div class="reviews-grid" id="reviewsGrid">
+                <!-- Review 1 - with image -->
                 <div class="review-card">
+                    <img src="images/review-1.png" alt="Foto de cliente - Josh's Darts" class="review-image">
                     <div class="review-stars">★★★★★</div>
                     <p class="review-text">"Increíble calidad. Lo compré para mi sala de dardos y queda espectacular. El
                         grabado con mi nombre quedó perfecto. ¡Mis amigos están celosos!"</p>
@@ -261,7 +268,9 @@
                     </div>
                 </div>
 
+                <!-- Review 2 - with image -->
                 <div class="review-card">
+                    <img src="images/review-2.png" alt="Foto de cliente - Daddy's Darts" class="review-image">
                     <div class="review-stars">★★★★★</div>
                     <p class="review-text">"Lo regalé a mi padre por su cumpleaños. Juega dardos desde hace 20 años y
                         dice que es el mejor regalo que ha recibido. La personalización fue un detalle muy especial."
@@ -275,7 +284,9 @@
                     </div>
                 </div>
 
+                <!-- Review 3 - with image -->
                 <div class="review-card">
+                    <img src="images/review-3.png" alt="Foto de cliente - Ben's Darts" class="review-image">
                     <div class="review-stars">★★★★★</div>
                     <p class="review-text">"Excelente acabado y muy práctico. Por fin tengo todos mis dardos
                         organizados. El diseño de diana es súper original y da un toque profesional a mi zona de juego."
@@ -289,7 +300,9 @@
                     </div>
                 </div>
 
-                <div class="review-card">
+                <!-- Hidden reviews -->
+                <div class="review-card hidden-review">
+                    <img src="images/review-4.png" alt="Foto de cliente - Let's play darts" class="review-image">
                     <div class="review-stars">★★★★★</div>
                     <p class="review-text">"Hecho a mano y se nota. La atención al detalle es impresionante. Lo usamos
                         como trofeo en nuestro bar para el campeón mensual. ¡Todos quieren ganarlo!"</p>
@@ -301,7 +314,63 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="review-card hidden-review">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Compré dos, uno para mí y otro para mi hermano. La calidad es top y el envío
+                        fue rapidísimo. Muy contento con la compra."</p>
+                    <div class="review-author">
+                        <div class="author-avatar">D</div>
+                        <div class="author-info">
+                            <span class="author-name">David S.</span>
+                            <span class="author-verified">✓ Compra verificada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card hidden-review">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Perfecto como regalo de Navidad. Mi marido quedó encantado. La
+                        personalización con su apodo de jugador fue todo un acierto."</p>
+                    <div class="review-author">
+                        <div class="author-avatar">L</div>
+                        <div class="author-info">
+                            <span class="author-name">Laura P.</span>
+                            <span class="author-verified">✓ Compra verificada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card hidden-review">
+                    <div class="review-stars">★★★★☆</div>
+                    <p class="review-text">"Muy buen producto, justo como en las fotos. El único detalle es que tardó un
+                        par de días más por la personalización, pero valió la pena."</p>
+                    <div class="review-author">
+                        <div class="author-avatar">A</div>
+                        <div class="author-info">
+                            <span class="author-name">Antonio G.</span>
+                            <span class="author-verified">✓ Compra verificada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card hidden-review">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Soy jugador profesional y este soporte es de los mejores que he visto. Muy
+                        estable y los dardos quedan perfectos sin dañar los vuelos."</p>
+                    <div class="review-author">
+                        <div class="author-avatar">R</div>
+                        <div class="author-info">
+                            <span class="author-name">Roberto F.</span>
+                            <span class="author-verified">✓ Compra verificada</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <button class="show-more-btn" id="showMoreBtn" onclick="showMoreReviews()">
+                Mostrar más opiniones
+            </button>
         </div>
     </section>
 
