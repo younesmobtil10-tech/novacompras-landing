@@ -74,17 +74,48 @@
                 <span class="price-badge">-29%</span>
             </div>
 
-            <div class="hero-cta-group">
-                <a href="#comprar" class="btn btn-primary">
-                    <span>Personalizar y Comprar</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </a>
-                <div class="trust-badges">
-                    <span>✓ Envío Gratis</span>
-                    <span>✓ Garantía 30 días</span>
+            <!-- Urgency Counter -->
+            <div class="urgency-banner">
+                <span class="urgency-icon">⚡</span>
+                <span>¡Pídelo en las próximas <strong id="countdown">05:00:00</strong> y recíbelo
+                    <strong>mañana</strong>!</span>
+            </div>
+
+            <!-- Personalization Input -->
+            <div class="personalization-box">
+                <label class="personalization-label">
+                    <span class="label-icon">✏️</span>
+                    <strong>Personalización</strong>
+                </label>
+                <p class="personalization-hint">Escribe el nombre exactamente como lo quieres. Asegúrate de que esté
+                    bien escrito.</p>
+                <div class="personalization-input-wrapper">
+                    <input type="text" id="personalizationName" class="personalization-input"
+                        placeholder="Ej: Dardos de Papá" maxlength="30">
+                    <span class="char-counter"><span id="charCount">0</span>/30</span>
                 </div>
+                <p class="personalization-note">+1 día de preparación para personalizado</p>
+            </div>
+
+            <!-- Payment Buttons -->
+            <div class="payment-buttons">
+                <a href="checkout.html" class="btn btn-primary btn-large btn-checkout" id="btnComprar">
+                    <span>🛒 COMPRAR AHORA</span>
+                </a>
+                <a href="checkout.html?method=cod" class="btn btn-secondary btn-large btn-cod">
+                    <span>📦 Pago Contrareembolso</span>
+                </a>
+            </div>
+
+            <!-- Secure Payment Badges -->
+            <div class="secure-payment">
+                <img src="images/pago-seguro.png" alt="Pago Seguro - SSL, Visa, MasterCard, Bizum, Redsys"
+                    class="secure-badges-img">
+            </div>
+
+            <div class="trust-badges">
+                <span>✓ Envío Gratis</span>
+                <span>✓ Garantía 30 días</span>
             </div>
         </div>
     </header>
@@ -278,91 +309,6 @@
                         <div class="author-info">
                             <span class="author-name">Pablo M.</span>
                             <span class="author-verified">✓ Compra verificada</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section" id="comprar">
-        <div class="container">
-            <div class="cta-box">
-                <div class="cta-content">
-                    <h2 class="cta-title">¿Listo para Ordenar el Tuyo?</h2>
-
-                    <!-- Urgency Counter -->
-                    <div class="urgency-banner">
-                        <span class="urgency-icon">⚡</span>
-                        <span>¡Pídelo en las próximas <strong id="countdown">05:00:00</strong> y recíbelo
-                            <strong>mañana</strong>!</span>
-                    </div>
-
-                    <div class="cta-price-final">
-                        <span class="cta-price">24,92€</span>
-                        <span class="cta-shipping">Envío GRATIS a España</span>
-                    </div>
-
-                    <!-- Personalization Input -->
-                    <div class="personalization-box">
-                        <label class="personalization-label">
-                            <span class="label-icon">✏️</span>
-                            <strong>Personalización</strong>
-                        </label>
-                        <p class="personalization-hint">Si elige la opción de personalización, ingrésela a continuación
-                            y asegúrese de que la ortografía sea correcta antes de realizar el pago.</p>
-                        <div class="personalization-input-wrapper">
-                            <input type="text" id="personalizationName" class="personalization-input"
-                                placeholder="Escribe tu nombre o texto..." maxlength="30">
-                            <span class="char-counter"><span id="charCount">0</span>/30</span>
-                        </div>
-                        <p class="personalization-note">Por favor, espere un día hábil adicional para artículos
-                            personalizados.</p>
-                    </div>
-
-                    <!-- Payment Buttons -->
-                    <div class="payment-buttons">
-                        <a href="checkout.html" class="btn btn-primary btn-large btn-checkout" id="btnComprar">
-                            <span>🛒 COMPRAR AHORA</span>
-                        </a>
-                        <a href="checkout.html?method=cod" class="btn btn-secondary btn-large btn-cod">
-                            <span>📦 Pago Contrareembolso</span>
-                        </a>
-                    </div>
-
-                    <!-- Secure Payment Badges -->
-                    <div class="secure-payment">
-                        <img src="images/pago-seguro.png" alt="Pago Seguro - SSL, Visa, MasterCard, Bizum, Redsys"
-                            class="secure-badges-img">
-                    </div>
-
-                    <div class="cta-guarantees">
-                        <div class="guarantee">
-                            <svg class="guarantee-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            </svg>
-                            <span>Garantía 30 días</span>
-                        </div>
-                        <div class="guarantee">
-                            <svg class="guarantee-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <rect x="1" y="3" width="15" height="13"></rect>
-                                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                            </svg>
-                            <span>Envío seguro</span>
-                        </div>
-                        <div class="guarantee">
-                            <svg class="guarantee-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <polygon
-                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                                </polygon>
-                            </svg>
-                            <span>5 estrellas</span>
                         </div>
                     </div>
                 </div>
