@@ -211,7 +211,9 @@ ol {
 }
 
 .logo-icon {
-    font-size: 1.5rem;
+    width: 24px;
+    height: 24px;
+    color: var(--color-accent-primary);
 }
 
 .logo-text {
@@ -302,6 +304,13 @@ ol {
 
 .hero-subtitle strong {
     color: var(--color-text-primary);
+}
+
+.hero-specs {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+    letter-spacing: 0.02em;
 }
 
 .hero-price {
@@ -565,8 +574,10 @@ ol {
 }
 
 .gift-icon {
-    font-size: 1.5rem;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
+    color: var(--color-accent-secondary);
 }
 
 .gift-text strong {
@@ -731,7 +742,10 @@ ol {
 }
 
 .guarantee-icon {
-    font-size: 1.25rem;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--color-accent-primary);
 }
 
 /* ========================================
