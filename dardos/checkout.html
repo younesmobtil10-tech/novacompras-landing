@@ -711,7 +711,7 @@
 
                 if (paymentIntent.status === 'succeeded') {
                     // Show success
-                    window.location.href = 'thank-you.html?order=' + paymentIntent.id + '&method=card';
+                    window.location.href = '/dardos/thank-you.html?order=' + paymentIntent.id + '&method=card';
                 }
             } catch (error) {
                 const errorElement = document.getElementById('card-errors');
@@ -752,7 +752,7 @@
                     throw new Error(error);
                 }
 
-                window.location.href = 'thank-you.html?order=' + orderId + '&method=cod';
+                window.location.href = '/dardos/thank-you.html?order=' + orderId + '&method=cod';
             } catch (error) {
                 alert('Error al procesar el pedido: ' + error.message);
             }
